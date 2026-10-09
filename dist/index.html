@@ -248,6 +248,37 @@
     .example-card { border: 1px solid var(--line); border-radius: 20px; padding: 28px; background: rgba(255,255,255,.7); }
     .example-card code { display: inline-block; margin: 12px 0 18px; padding: 7px 10px; border-radius: 7px; background: #dfe7de; color: #285c54; font: 600 .82rem/1.4 monospace; }
     .example-card p { color: var(--muted); margin: 0; }
+    .catalog-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: end; margin-top: 78px; padding-top: 72px; border-top: 1px solid var(--line); }
+    .catalog-head h3 { font-size: clamp(2rem, 3.5vw, 3.25rem); margin: 12px 0 0; }
+    .catalog-head p { color: var(--muted); margin: 0; font-size: 1.05rem; }
+    .signal-catalog { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 34px; }
+    .signal-product { grid-column: span 2; min-height: 285px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: rgba(255,255,255,.75); }
+    .signal-product--wide { grid-column: span 3; }
+    .signal-preview { height: 98px; position: relative; overflow: hidden; background: var(--ink); }
+    .signal-preview::after { content: "Visualización conceptual"; position: absolute; left: 16px; bottom: 12px; color: rgba(255,255,255,.8); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .signal-preview--rgb { background: linear-gradient(125deg, #173f67 0 25%, #2b7451 25% 52%, #a6814b 52% 75%, #d8c788 75%); }
+    .signal-preview--cir { background: linear-gradient(125deg, #30244f 0 20%, #c51f4b 20% 53%, #f07171 53% 72%, #184d62 72%); }
+    .signal-preview--ndvi { background: linear-gradient(125deg, #7e613c, #efe6a2 35%, #95c54b 58%, #174b2b); }
+    .signal-preview--nbr { background: linear-gradient(125deg, #152e3c, #386f49 35%, #aa783f 58%, #42291f); }
+    .signal-preview--time { background: linear-gradient(180deg, #0d2530, #173a45); }
+    .signal-preview--time svg { position: absolute; inset: 12px 16px 10px; width: calc(100% - 32px); height: calc(100% - 22px); }
+    .signal-copy { padding: 23px 24px 26px; }
+    .signal-copy h4 { font: 700 1.25rem/1.2 "Manrope"; letter-spacing: -.02em; margin: 0 0 9px; }
+    .signal-copy p { color: var(--muted); margin: 0; font-size: .92rem; }
+    .signal-copy code { display: inline-block; margin-top: 15px; color: #28675e; font: 600 .76rem/1.4 monospace; }
+    .history-note { display: flex; justify-content: space-between; gap: 30px; align-items: center; margin-top: 18px; padding: 20px 24px; border-radius: 16px; background: #dfe8dc; color: #3f5c61; }
+    .history-note strong { color: var(--ink); }
+    .history-note span { font-size: .82rem; text-align: right; }
+    .quality-panel { margin-top: 70px; padding: clamp(28px, 5vw, 52px); border-radius: 26px; background: var(--ink); color: white; }
+    .quality-panel .eyebrow { color: var(--aqua); }
+    .quality-grid { display: grid; grid-template-columns: .82fr 1.18fr; gap: 60px; align-items: start; }
+    .quality-panel h3 { font-size: clamp(2rem, 3.5vw, 3.2rem); margin: 15px 0 18px; }
+    .quality-panel .quality-lead { color: #b7c8ca; font-size: 1.05rem; margin-bottom: 0; }
+    .quality-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .quality-step { padding: 18px; border: 1px solid rgba(255,255,255,.13); border-radius: 14px; background: rgba(255,255,255,.045); }
+    .quality-step small { display: block; color: var(--lime); font-weight: 700; margin-bottom: 6px; }
+    .quality-step strong { display: block; font-family: "Manrope", sans-serif; line-height: 1.25; }
+    .quality-step p { color: #9fb2b5; margin: 7px 0 0; font-size: .85rem; }
     .delivery { background: #07151d; color: white; }
     .delivery .section-lead { color: #a9babd; }
     .delivery-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 76px; align-items: start; }
@@ -278,7 +309,7 @@
       .hero-image { inset-left: 0; width: 100%; opacity: .55; }
       .hero-shade { background: linear-gradient(90deg, rgba(7,21,29,.96), rgba(7,21,29,.35)), linear-gradient(0deg, var(--ink), transparent 50%); }
       .hero-content { width: 100%; }
-      .intro-grid, .planner-grid, .faq-wrap, .cta-box, .force-grid, .delivery-layout { grid-template-columns: 1fr; gap: 42px; }
+      .intro-grid, .planner-grid, .faq-wrap, .cta-box, .force-grid, .delivery-layout, .catalog-head, .quality-grid { grid-template-columns: 1fr; gap: 42px; }
       .intro-sticky { position: static; }
       .force-intro { position: static; }
       .flow { grid-template-columns: repeat(2, 1fr); }
@@ -287,6 +318,7 @@
       .use-case:nth-child(3) { border-left: 0; padding-left: 0; }
       .plans { grid-template-columns: 1fr; }
       .example-row { grid-template-columns: 1fr; }
+      .signal-product, .signal-product--wide { grid-column: span 3; }
       .plan.featured { transform: none; }
     }
     @media (max-width: 600px) {
@@ -304,6 +336,11 @@
       .nfs-link { width: 2px; height: 28px; margin: 0 auto; }
       .nfs-link::after { right: -4px; top: auto; bottom: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid var(--lime); border-bottom: 0; }
       .security-list { grid-template-columns: 1fr; }
+      .signal-catalog { grid-template-columns: 1fr; }
+      .signal-product, .signal-product--wide { grid-column: auto; }
+      .quality-steps { grid-template-columns: 1fr; }
+      .history-note { align-items: flex-start; flex-direction: column; }
+      .history-note span { text-align: left; }
       .access-strip, .footer-row { align-items: flex-start; flex-direction: column; }
       .product-visual { min-height: 510px; }
       .cta-box { padding: 32px 22px; }
@@ -382,8 +419,8 @@
         <h2>Del satélite a una decisión.</h2>
         <p class="section-lead">La complejidad técnica queda detrás de una cadena clara de ingestión, corrección, organización y entrega.</p>
         <div class="flow">
-          <article class="flow-card"><div class="flow-icon">01</div><h3>Ingesta</h3><p>Seleccionamos observaciones Sentinel-2 para la zona y el periodo de interés.</p></article>
-          <article class="flow-card"><div class="flow-icon">02</div><h3>Nivel 2 ARD</h3><p>FORCE corrige las escenas, detecta nubes y sombras y crea reflectancia y calidad comparables.</p></article>
+          <article class="flow-card"><div class="flow-icon">01</div><h3>Ingesta</h3><p>Seleccionamos observaciones Landsat y Sentinel-2 para la zona y el periodo de interés.</p></article>
+          <article class="flow-card"><div class="flow-icon">02</div><h3>Nivel 2 ARD</h3><p>FORCE detecta nubes y sombras, corrige las escenas y crea reflectancia y calidad comparables.</p></article>
           <article class="flow-card"><div class="flow-icon">03</div><h3>Datacubo</h3><p>Las observaciones se ordenan en teselas de 30 km, a 10 m, sobre una cuadrícula estable.</p></article>
           <article class="flow-card"><div class="flow-icon">04</div><h3>Producto</h3><p>Generamos índices, estadísticas temporales, recortes y entregables para cada caso de uso.</p></article>
         </div>
@@ -402,7 +439,7 @@
             <span class="eyebrow">FORCE en español</span>
             <span class="force-name">Framework for Operational Radiometric Correction for Environmental monitoring</span>
             <h2>El motor que convierte imágenes en información.</h2>
-            <p class="section-lead">FORCE es software libre para procesar archivos de observación de la Tierra. Automatiza la preparación de grandes volúmenes de imágenes y su análisis como series de tiempo.</p>
+            <p class="section-lead">FORCE es software libre para procesar archivos de observación de la Tierra. Automatiza la preparación de grandes volúmenes de imágenes Landsat y Sentinel-2 y su análisis como series de tiempo.</p>
             <p class="section-lead">Nuestro servicio traduce esa potencia técnica a productos documentados, soporte en español y formas de entrega que el equipo del cliente pueda usar.</p>
             <a href="https://force-eo.readthedocs.io/en/latest/" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;color:#286f66;font-weight:700">Documentación técnica original de FORCE</a>
           </div>
@@ -415,15 +452,56 @@
             </div>
             <div class="force-detail" aria-live="polite">
               <span class="force-label" id="forceLabel">Entrada</span>
-              <h3 id="forceTitle">Sentinel-2 observa el territorio</h3>
-              <p id="forceText">Partimos de imágenes Nivel 1C adquiridas para una zona y periodo. Una escena todavía necesita correcciones y control de calidad antes de comparar fechas o calcular indicadores.</p>
+              <h3 id="forceTitle">Landsat y Sentinel-2 observan el territorio</h3>
+              <p id="forceText">Partimos de imágenes de archivo adquiridas para una zona y periodo. Una escena todavía necesita correcciones y control de calidad antes de comparar fechas o calcular indicadores.</p>
             </div>
           </div>
         </div>
-        <div class="example-row">
-          <article class="example-card"><span class="eyebrow">Ejemplo 01</span><h3>NDVI por fecha</h3><code>(NIR − rojo) / (NIR + rojo)</code><p>Mide la respuesta relativa de la vegetación. Se entrega con máscara de calidad y valores listos para SIG.</p></article>
-          <article class="example-card"><span class="eyebrow">Ejemplo 02</span><h3>NDVI percentil 90</h3><code>P90 de observaciones válidas</code><p>Resume el vigor alto típico de un periodo sin depender de una sola fecha. Requiere suficientes observaciones despejadas.</p></article>
-          <article class="example-card"><span class="eyebrow">Ejemplo 03</span><h3>Cambio y tendencia</h3><code>serie temporal + calidad</code><p>Compara periodos y localiza señales persistentes. El resultado indica dónde investigar; no reemplaza validación de campo.</p></article>
+        <div class="catalog-head">
+          <div><span class="eyebrow">Ejemplos de productos</span><h3>Una misma historia, distintas formas de verla.</h3></div>
+          <p>Las bandas espectrales pueden combinarse para inspección visual o transformarse en índices y métricas temporales. Cada producto ilumina una pregunta distinta y conserva la máscara de calidad utilizada.</p>
+        </div>
+        <div class="signal-catalog">
+          <article class="signal-product">
+            <div class="signal-preview signal-preview--rgb"></div>
+            <div class="signal-copy"><h4>RGB · color natural</h4><p>Una vista cercana a lo que percibe el ojo humano. Sirve para interpretar coberturas, agua, suelo expuesto, infraestructura y contexto territorial.</p><code>rojo · verde · azul</code></div>
+          </article>
+          <article class="signal-product">
+            <div class="signal-preview signal-preview--cir"></div>
+            <div class="signal-copy"><h4>CIR · infrarrojo color</h4><p>Asigna el infrarrojo cercano al canal rojo para resaltar vegetación activa y facilitar la lectura de humedad, agua y coberturas.</p><code>NIR · rojo · verde</code></div>
+          </article>
+          <article class="signal-product">
+            <div class="signal-preview signal-preview--ndvi"></div>
+            <div class="signal-copy"><h4>NDVI · vegetación</h4><p>Expresa la respuesta relativa de la vegetación. Puede analizarse por fecha, temporada, percentiles o tendencia entre años.</p><code>(NIR − rojo) / (NIR + rojo)</code></div>
+          </article>
+          <article class="signal-product signal-product--wide">
+            <div class="signal-preview signal-preview--nbr"></div>
+            <div class="signal-copy"><h4>NBR · incendios y recuperación</h4><p>Combina infrarrojo cercano e infrarrojo de onda corta. Ayuda a delimitar señales asociadas a áreas quemadas y a observar su recuperación; requiere comparación temporal y validación.</p><code>(NIR − SWIR2) / (NIR + SWIR2)</code></div>
+          </article>
+          <article class="signal-product signal-product--wide">
+            <div class="signal-preview signal-preview--time">
+              <svg viewBox="0 0 420 76" role="img" aria-label="Serie temporal conceptual con observaciones Landsat y Sentinel-2">
+                <path d="M4 58 C42 44 59 61 91 39 S145 50 177 31 S229 45 263 22 S322 36 356 17 S391 21 416 8" fill="none" stroke="#b8f22e" stroke-width="3"/>
+                <path d="M4 66H416" stroke="rgba(255,255,255,.25)"/><g fill="#59dfcc"><circle cx="4" cy="58" r="3"/><circle cx="91" cy="39" r="3"/><circle cx="177" cy="31" r="3"/><circle cx="263" cy="22" r="3"/><circle cx="356" cy="17" r="3"/><circle cx="416" cy="8" r="3"/></g>
+              </svg>
+            </div>
+            <div class="signal-copy"><h4>Series de tiempo · décadas de contexto</h4><p>La profundidad histórica de Landsat permite estudiar cambios desde los años ochenta; Sentinel-2 aporta mayor detalle espacial y observaciones desde 2016. Las fechas efectivamente disponibles se verifican para cada zona.</p><code>Landsat desde 1984 · Sentinel-2 desde 2016</code></div>
+          </article>
+        </div>
+        <div class="history-note"><strong>De una imagen a una evidencia temporal</strong><span>Los rangos históricos son capacidades potenciales de los archivos satelitales. La cobertura útil depende de sensor, zona, nubes, calidad y disponibilidad en nuestro datacubo.</span></div>
+
+        <div class="quality-panel">
+          <div class="quality-grid">
+            <div><span class="eyebrow">Trabajo antes del análisis</span><h3>Limpiar y organizar es gran parte del valor.</h3><p class="quality-lead">Descargar imágenes no crea un datacubo. FORCE ejecuta una cadena sistemática para que distintas fechas y sensores puedan compararse con criterios explícitos de calidad.</p></div>
+            <div class="quality-steps">
+              <article class="quality-step"><small>01</small><strong>Nubes y sombras</strong><p>Detección avanzada y máscaras por píxel para excluir observaciones contaminadas.</p></article>
+              <article class="quality-step"><small>02</small><strong>Control de calidad</strong><p>Revisión de escenas y registro de píxeles válidos, agua, nieve, saturación y otras condiciones.</p></article>
+              <article class="quality-step"><small>03</small><strong>Correcciones físicas</strong><p>Corrección atmosférica, topográfica, de adyacencia y de geometría de observación cuando aplica.</p></article>
+              <article class="quality-step"><small>04</small><strong>Armonización</strong><p>Resoluciones, proyección y bandas se llevan a una estructura coherente para el análisis.</p></article>
+              <article class="quality-step"><small>05</small><strong>Corregistro</strong><p>Las imágenes se alinean para que el mismo píxel represente el mismo lugar entre fechas.</p></article>
+              <article class="quality-step"><small>06</small><strong>Cubing y trazabilidad</strong><p>Los datos se ordenan en teselas, con metadatos y parámetros reproducibles.</p></article>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -439,9 +517,9 @@
             <div class="product-copy"><span class="eyebrow">Ejemplo de producto</span><h3>NDVI y vigor de la vegetación</h3><p>Compara fechas, resume temporadas y localiza patrones de cambio con índices escalados y listos para SIG.</p></div>
           </article>
           <div class="product-stack">
-            <article class="mini-card"><span class="tag">Series temporales</span><h3>Percentiles y tendencias</h3><p>Resume muchos días de observación en métricas estables para comparación territorial.</p></article>
-            <article class="mini-card"><span class="tag">Calidad</span><h3>Máscara de nubes y sombras</h3><p>Conserva únicamente las observaciones adecuadas para el análisis definido.</p></article>
-            <article class="mini-card"><span class="tag">A medida</span><h3>Variables derivadas</h3><p>Índices espectrales, composiciones, estadísticas y recortes adaptados a tu flujo.</p></article>
+            <article class="mini-card"><span class="tag">Composiciones</span><h3>RGB y CIR</h3><p>Vistas de color natural y falso color para interpretar el territorio con bandas visibles e infrarrojas.</p></article>
+            <article class="mini-card"><span class="tag">Cambio</span><h3>NBR y series históricas</h3><p>Comparación antes/después, tendencias y trayectorias de recuperación con observaciones válidas.</p></article>
+            <article class="mini-card"><span class="tag">A medida</span><h3>Índices y métricas temporales</h3><p>NDVI, percentiles, composiciones, estadísticas y recortes adaptados a la decisión.</p></article>
           </div>
         </div>
 
@@ -533,6 +611,7 @@
           <details><summary>¿Necesito ser especialista en teledetección?</summary><p>No. Puedes recibir un raster listo para QGIS o ArcGIS, una tabla de resultados o un flujo para Python. La complejidad depende del nivel de integración que elijas.</p></details>
           <details><summary>¿Qué significa “listo para análisis”?</summary><p>Que las imágenes han sido corregidas, alineadas en una cuadrícula estable y acompañadas de información de calidad. Aun así, cada producto requiere una definición clara y validación para su uso previsto.</p></details>
           <details><summary>¿Puedo pedir un índice diferente de NDVI?</summary><p>Sí. NDVI es un ejemplo. El catálogo puede crecer con otros índices espectrales, composiciones temporales y estadísticas, siempre que las bandas y observaciones disponibles soporten el cálculo.</p></details>
+          <details><summary>¿Desde qué año hay imágenes?</summary><p>El archivo Landsat permite construir series potenciales desde 1984 y Sentinel-2 aporta observaciones de mayor detalle desde 2016. Para cada solicitud verificamos cobertura efectiva, nubes, calidad, sensor y fechas disponibles antes de confirmar el histórico.</p></details>
           <details><summary>¿Cómo se conectaría mi empresa?</summary><p>El piloto comienza con entregas por lote. Para operaciones recurrentes se puede evolucionar hacia almacenamiento compartido, catálogo STAC o API, según volumen, seguridad y frecuencia.</p></details>
           <details><summary>¿NFS funciona desde esta página web?</summary><p>No. La web es el punto comercial y documental. NFS se configura entre servidores a través de una red privada; el cliente monta únicamente la ruta autorizada. Para usuarios sin infraestructura Linux ofrecemos descargas HTTPS u otras modalidades.</p></details>
         </div>
@@ -569,10 +648,10 @@
     navLinks.addEventListener('click', event => { if (event.target.matches('a')) { navLinks.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); } });
 
     const forceContent = {
-      level1: ['Entrada', 'Sentinel-2 observa el territorio', 'Partimos de imágenes Nivel 1C adquiridas para una zona y periodo. Una escena todavía necesita correcciones y control de calidad antes de comparar fechas o calcular indicadores.'],
-      ard: ['Nivel 2', 'FORCE genera datos ARD', 'El procesamiento atmosférico y radiométrico, el uso del relieve y la detección de nubes y sombras producen reflectancia de superficie (BOA) e información de calidad (QAI).'],
-      cube: ['Estructura', 'Cada píxel ocupa un lugar estable', 'Las fechas se organizan en una cuadrícula común de teselas sin solapamiento. Esto permite leer el mismo lugar a través del tiempo sin realinear cada escena.'],
-      higher: ['Nivel 3–4', 'La serie temporal se convierte en producto', 'FORCE calcula índices, estadísticas, interpolaciones y tendencias, o ejecuta funciones personalizadas en Python. De aquí salen productos como NDVI P90, métricas temporales y capas para modelos.']
+      level1: ['Entrada', 'Landsat y Sentinel-2 observan el territorio', 'Partimos de imágenes de archivo adquiridas para una zona y periodo. Cada escena todavía necesita correcciones, alineación y control de calidad antes de comparar fechas o calcular indicadores.'],
+      ard: ['Nivel 2', 'FORCE genera datos ARD', 'El procesamiento atmosférico y radiométrico, el uso del relieve, la detección de nubes y sombras y el control geométrico producen reflectancia de superficie e información de calidad por píxel.'],
+      cube: ['Estructura', 'Cada píxel ocupa un lugar estable', 'Las fechas y sensores se organizan en una cuadrícula común de teselas sin solapamiento. Esto permite leer el mismo lugar a través del tiempo sin preparar y realinear cada escena de forma manual.'],
+      higher: ['Nivel 3–4', 'La serie temporal se convierte en producto', 'FORCE genera RGB y CIR, calcula índices como NDVI y NBR, crea composiciones, percentiles y tendencias, o ejecuta funciones personalizadas. Así, décadas de observaciones se transforman en información utilizable.']
     };
     document.getElementById('forceSteps').addEventListener('click', event => {
       const button = event.target.closest('.force-step');
