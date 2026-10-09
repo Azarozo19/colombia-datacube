@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datacubo Antioquia — Inteligencia territorial lista para usar</title>
+  <meta name="description" content="Convierte observaciones satelitales de Antioquia en datos consistentes para agricultura, ambiente, infraestructura y análisis territorial.">
+  <meta name="theme-color" content="#07151d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2307151d'/%3E%3Cpath d='M14 18 32 9l18 9-18 9-18-9Zm0 9 18 9 18-9M14 36l18 9 18-9M14 45l18 9 18-9' fill='none' stroke='%23b8f22e' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #07151d;
+      --ink-soft: #0d2631;
+      --paper: #f4f7f1;
+      --white: #ffffff;
+      --mist: #dce5dc;
+      --lime: #b8f22e;
+      --aqua: #59dfcc;
+      --blue: #62a6ff;
+      --muted: #61737a;
+      --line: rgba(7, 21, 29, .13);
+      --radius: 24px;
+      --shadow: 0 24px 70px rgba(5, 24, 31, .14);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.6 "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .32;
+      background-image: linear-gradient(rgba(7,21,29,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(7,21,29,.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, #000, transparent 55%);
+      z-index: -1;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #3b5a61;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--lime); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: "Manrope", sans-serif; letter-spacing: -.04em; line-height: 1.06; }
+    h1 { font-size: clamp(3rem, 7vw, 6.9rem); margin-bottom: 28px; }
+    h2 { font-size: clamp(2.25rem, 4.7vw, 4.4rem); margin-bottom: 22px; }
+    h3 { font-size: 1.25rem; letter-spacing: -.02em; }
+    .lead { font-size: clamp(1.08rem, 1.6vw, 1.3rem); line-height: 1.55; color: #c8d8da; max-width: 660px; }
+    .section-lead { color: var(--muted); max-width: 660px; font-size: 1.08rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); background: #cbff48; }
+    .btn--ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,.26); }
+    .btn--ghost:hover { background: var(--white); color: var(--ink); }
+    .btn--dark { background: var(--ink); color: var(--white); }
+    .btn--dark:hover { background: var(--ink-soft); }
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 16px 0;
+      transition: background .25s, backdrop-filter .25s, box-shadow .25s;
+    }
+    .site-header.scrolled { background: rgba(7,21,29,.88); backdrop-filter: blur(16px); box-shadow: 0 1px rgba(255,255,255,.08); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; color: var(--white); }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; font: 700 1rem/1 "Manrope"; }
+    .brand-mark { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid rgba(184,242,46,.45); border-radius: 11px; color: var(--lime); }
+    .brand-mark svg { width: 24px; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a:not(.btn) { text-decoration: none; color: #d7e2e3; font-size: .92rem; }
+    .nav-links a:hover { color: var(--white); }
+    .menu-toggle { display: none; background: none; border: 0; color: white; padding: 8px; cursor: pointer; }
+    .hero {
+      min-height: 900px;
+      color: white;
+      background: var(--ink);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 150px 0 90px;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 180px;
+      background: linear-gradient(transparent, var(--ink));
+      pointer-events: none;
+    }
+    .hero-image { position: absolute; inset: 0 0 0 31%; width: 69%; height: 100%; object-fit: cover; opacity: .82; }
+    .hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 8%, rgba(7,21,29,.92) 34%, rgba(7,21,29,.15) 80%), linear-gradient(0deg, var(--ink), transparent 35%); }
+    .hero-content { position: relative; z-index: 2; width: min(810px, 75%); }
+    .hero .eyebrow { color: var(--aqua); margin-bottom: 26px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 34px 0 55px; }
+    .hero-proof { display: flex; gap: 34px; flex-wrap: wrap; }
+    .hero-proof div { padding-left: 14px; border-left: 2px solid var(--lime); }
+    .hero-proof strong { display: block; font: 700 1.35rem/1.2 "Manrope"; }
+    .hero-proof span { color: #9eb1b5; font-size: .85rem; }
+    .hero-note { position: absolute; right: 26px; bottom: 20px; z-index: 3; color: #93a7aa; font-size: .72rem; }
+    section { padding: 112px 0; }
+    .intro-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 90px; align-items: start; }
+    .intro-sticky { position: sticky; top: 110px; }
+    .definition { font: 600 clamp(1.65rem, 3vw, 2.65rem)/1.28 "Manrope"; letter-spacing: -.035em; }
+    .definition em { font-style: normal; color: #2f897e; }
+    .signal-list { display: grid; gap: 18px; }
+    .signal {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 20px;
+      padding: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .signal-number { font: 700 .85rem/1 "Manrope"; color: #4a6a70; padding-top: 4px; }
+    .signal p { margin: 8px 0 0; color: var(--muted); }
+    .dark-section { background: var(--ink); color: var(--white); }
+    .dark-section .section-lead { color: #a9babd; }
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 55px; }
+    .flow-card { border: 1px solid rgba(255,255,255,.14); border-radius: 20px; padding: 28px; min-height: 250px; background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.015)); }
+    .flow-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 14px; background: rgba(184,242,46,.1); color: var(--lime); margin-bottom: 42px; font: 700 1rem "Manrope"; }
+    .flow-card p { color: #a9babd; font-size: .94rem; margin-bottom: 0; }
+    .access-strip { margin-top: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid rgba(255,255,255,.13); padding-top: 28px; }
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; color: #bed0d2; font-size: .9rem; }
+    .status-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 5px rgba(184,242,46,.12); }
+    .products-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; margin-top: 55px; }
+    .product-visual { min-height: 570px; border-radius: var(--radius); overflow: hidden; position: relative; color: white; background: var(--ink); box-shadow: var(--shadow); }
+    .product-visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+    .product-visual::after { content:""; position:absolute; inset:0; background: linear-gradient(0deg, rgba(7,21,29,.93), transparent 58%); }
+    .product-copy { position: absolute; left: 34px; right: 34px; bottom: 28px; z-index: 2; }
+    .product-copy p { color: #c8d8da; max-width: 530px; margin: 8px 0 0; }
+    .product-stack { display: grid; gap: 24px; }
+    .mini-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 31px; background: rgba(255,255,255,.56); min-height: 174px; }
+    .mini-card .tag { display: inline-block; font-size: .75rem; font-weight: 700; color: #2d7269; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 23px; }
+    .mini-card p { color: var(--muted); margin: 0; }
+    .use-cases { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); margin-top: 55px; }
+    .use-case { padding: 30px 28px 34px 0; border-bottom: 1px solid var(--line); }
+    .use-case + .use-case { padding-left: 28px; border-left: 1px solid var(--line); }
+    .use-case svg { width: 34px; height: 34px; margin-bottom: 44px; color: #2c857a; }
+    .use-case p { color: var(--muted); margin-bottom: 0; font-size: .94rem; }
+    .planner { background: #dfe8dc; }
+    .planner-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: center; }
+    .planner-panel { background: var(--white); padding: 34px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .field { margin-bottom: 24px; }
+    .field label { display: block; font-weight: 700; margin-bottom: 9px; }
+    .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .option input { position: absolute; opacity: 0; pointer-events: none; }
+    .option span { display: grid; place-items: center; min-height: 48px; text-align: center; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; color: #52656b; font-size: .9rem; }
+    .option input:checked + span { background: var(--ink); color: white; border-color: var(--ink); }
+    .recommendation { margin-top: 28px; border-radius: 18px; padding: 24px; background: var(--ink); color: white; }
+    .recommendation small { color: var(--aqua); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+    .recommendation h3 { margin: 10px 0 8px; font-size: 1.6rem; }
+    .recommendation p { color: #b8c8ca; margin: 0; }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 55px; }
+    .plan { border: 1px solid var(--line); background: rgba(255,255,255,.68); border-radius: var(--radius); padding: 32px; display: flex; flex-direction: column; min-height: 520px; }
+    .plan.featured { background: var(--ink); color: white; transform: translateY(-14px); box-shadow: var(--shadow); }
+    .plan-kicker { font-size: .76rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; color: #387c74; }
+    .featured .plan-kicker { color: var(--aqua); }
+    .plan h3 { font-size: 2rem; margin: 14px 0 8px; }
+    .plan-price { color: var(--muted); margin-bottom: 28px; }
+    .featured .plan-price { color: #adbec0; }
+    .plan ul { list-style: none; padding: 0; margin: 0 0 32px; }
+    .plan li { position: relative; padding: 9px 0 9px 24px; border-bottom: 1px solid var(--line); }
+    .featured li { border-color: rgba(255,255,255,.12); }
+    .plan li::before { content: "✓"; position: absolute; left: 0; color: #2f8f82; font-weight: 700; }
+    .featured li::before { color: var(--lime); }
+    .plan .btn { margin-top: auto; }
+    .proof-band { background: var(--lime); padding: 55px 0; }
+    .proof-band .shell { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; }
+    .proof-item strong { display: block; font: 800 clamp(2rem, 4vw, 3.6rem)/1 "Manrope"; letter-spacing: -.05em; }
+    .proof-item span { display: block; margin-top: 8px; color: #395013; }
+    .faq-wrap { display: grid; grid-template-columns: .75fr 1.25fr; gap: 90px; }
+    details { border-top: 1px solid var(--line); padding: 21px 0; }
+    details:last-child { border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font: 700 1.08rem/1.4 "Manrope"; list-style: none; padding-right: 38px; position: relative; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 4px; top: -2px; font-size: 1.55rem; color: #3d7770; }
+    details[open] summary::after { content: "−"; }
+    details p { color: var(--muted); padding-right: 50px; margin: 14px 0 0; }
+    .cta-section { padding-top: 0; }
+    .cta-box { background: var(--ink); color: white; border-radius: 32px; padding: clamp(34px, 7vw, 76px); display: grid; grid-template-columns: 1.05fr .95fr; gap: 80px; align-items: center; position: relative; overflow: hidden; }
+    .cta-box::after { content:""; position:absolute; width:420px; height:420px; border:1px solid rgba(184,242,46,.26); border-radius:50%; right:-210px; top:-230px; box-shadow: 0 0 0 70px rgba(184,242,46,.035), 0 0 0 140px rgba(184,242,46,.025); }
+    .cta-box p { color: #b9c9cb; }
+    .inquiry { position: relative; z-index: 2; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 26px; }
+    .inquiry label { display: block; font-size: .82rem; color: #c5d2d4; margin: 13px 0 6px; }
+    .inquiry input, .inquiry select { width: 100%; min-height: 46px; padding: 0 13px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); background: rgba(7,21,29,.52); color: white; }
+    .inquiry .btn { width: 100%; margin-top: 19px; }
+    .form-note { margin: 12px 0 0; font-size: .77rem; color: #8da1a5; }
+    .prepared { display: none; margin-top: 16px; border-left: 2px solid var(--lime); padding-left: 14px; color: #d6e0e1; font-size: .88rem; }
+    .prepared.visible { display: block; }
+    footer { padding: 34px 0 46px; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #60737a; font-size: .88rem; }
+    .footer-row a { text-decoration: none; }
+    .footer-row a:hover { color: var(--ink); }
+    .pilot-note { padding: 15px 0; background: #122c36; color: #c5d2d4; font-size: .84rem; text-align: center; }
+    @media (max-width: 900px) {
+      .nav-links { position: fixed; inset: 68px 20px auto; display: none; flex-direction: column; align-items: stretch; padding: 22px; border-radius: 18px; background: #0c242e; box-shadow: var(--shadow); }
+      .nav-links.open { display: flex; }
+      .menu-toggle { display: block; }
+      .hero { min-height: 820px; }
+      .hero-image { inset-left: 0; width: 100%; opacity: .55; }
+      .hero-shade { background: linear-gradient(90deg, rgba(7,21,29,.96), rgba(7,21,29,.35)), linear-gradient(0deg, var(--ink), transparent 50%); }
+      .hero-content { width: 100%; }
+      .intro-grid, .planner-grid, .faq-wrap, .cta-box { grid-template-columns: 1fr; gap: 42px; }
+      .intro-sticky { position: static; }
+      .flow { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: 1fr; }
+      .use-cases { grid-template-columns: repeat(2, 1fr); }
+      .use-case:nth-child(3) { border-left: 0; padding-left: 0; }
+      .plans { grid-template-columns: 1fr; }
+      .plan.featured { transform: none; }
+    }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 28px, 1180px); }
+      section { padding: 78px 0; }
+      h1 { font-size: clamp(2.8rem, 15vw, 4.2rem); }
+      .hero { min-height: 760px; padding-top: 120px; }
+      .hero-proof { gap: 20px; }
+      .hero-proof div { width: calc(50% - 10px); }
+      .hero-note { display: none; }
+      .flow, .use-cases, .proof-band .shell { grid-template-columns: 1fr; }
+      .use-case, .use-case + .use-case { border-left: 0; padding-left: 0; }
+      .options { grid-template-columns: 1fr; }
+      .access-strip, .footer-row { align-items: flex-start; flex-direction: column; }
+      .product-visual { min-height: 510px; }
+      .cta-box { padding: 32px 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="header">
+    <div class="shell nav">
+      <a class="brand" href="#inicio" aria-label="Datacubo Antioquia, inicio">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 9 11-5 11 5-11 5L5 9Zm0 6 11 5 11-5M5 21l11 5 11-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+        <span>Datacubo Antioquia</span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#aplicaciones">Aplicaciones</a>
+        <a href="#planes">Planes</a>
+        <a class="btn" href="#contacto">Solicitar piloto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <img class="hero-image" src="assets/hero-antioquia.png" alt="Visualización conceptual de montañas de Antioquia con capas de datos satelitales">
+      <div class="hero-shade"></div>
+      <div class="shell">
+        <div class="hero-content">
+          <span class="eyebrow">Observación territorial como servicio</span>
+          <h1>El territorio,<br>listo para decidir.</h1>
+          <p class="lead">Transformamos imágenes satelitales en un datacubo consistente de Antioquia: menos tiempo preparando datos, más tiempo encontrando respuestas.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#contacto">Diseñar un piloto</a>
+            <a class="btn btn--ghost" href="#como-funciona">Entender el datacubo</a>
+          </div>
+          <div class="hero-proof" aria-label="Características principales">
+            <div><strong>10 m</strong><span>detalle espacial Sentinel-2</span></div>
+            <div><strong>30 km</strong><span>teselas consistentes</span></div>
+            <div><strong>ARD</strong><span>datos listos para análisis</span></div>
+          </div>
+        </div>
+      </div>
+      <span class="hero-note">Visual conceptual · no representa una escena o fecha específica</span>
+    </section>
+
+    <div class="pilot-note">Producto en fase piloto: la cobertura, frecuencia y disponibilidad se confirman para cada zona antes de contratar.</div>
+
+    <section id="que-es">
+      <div class="shell intro-grid">
+        <div class="intro-sticky">
+          <span class="eyebrow">Qué es</span>
+          <h2>Muchas imágenes.<br>Una sola estructura.</h2>
+          <p class="section-lead">Un datacubo organiza el territorio por lugar, fecha y variable. Así, cada nueva observación se compara con las anteriores sin reconstruir el proceso desde cero.</p>
+        </div>
+        <div>
+          <p class="definition">No entregamos una carpeta de archivos aislados. Entregamos una base territorial <em>alineada, documentada y repetible</em> para responder preguntas en el tiempo.</p>
+          <div class="signal-list">
+            <article class="signal"><span class="signal-number">01</span><div><h3>Geometría estable</h3><p>La misma proyección, resolución y cuadrícula mantienen cada observación comparable píxel a píxel.</p></div></article>
+            <article class="signal"><span class="signal-number">02</span><div><h3>Calidad incorporada</h3><p>Las bandas de reflectancia y calidad permiten separar información útil de nubes, sombras y valores no válidos.</p></div></article>
+            <article class="signal"><span class="signal-number">03</span><div><h3>Historia consultable</h3><p>Las series temporales permiten observar tendencias, estacionalidad y cambios en lugar de mirar una sola fotografía.</p></div></article>
+            <article class="signal"><span class="signal-number">04</span><div><h3>Procesos reproducibles</h3><p>Cada producto puede reconstruirse con parámetros, versiones y evidencia de procesamiento trazables.</p></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-section" id="como-funciona">
+      <div class="shell">
+        <span class="eyebrow">Cómo funciona</span>
+        <h2>Del satélite a una respuesta utilizable.</h2>
+        <p class="section-lead">La complejidad técnica queda detrás de una cadena clara de ingestión, corrección, organización y entrega.</p>
+        <div class="flow">
+          <article class="flow-card"><div class="flow-icon">01</div><h3>Ingesta</h3><p>Seleccionamos observaciones Sentinel-2 para la zona y el periodo de interés.</p></article>
+          <article class="flow-card"><div class="flow-icon">02</div><h3>Preparación</h3><p>FORCE convierte las escenas en reflectancia de superficie y capas de calidad comparables.</p></article>
+          <article class="flow-card"><div class="flow-icon">03</div><h3>Datacubo</h3><p>Las observaciones se ordenan en teselas de 30 km, a 10 m, sobre una cuadrícula estable.</p></article>
+          <article class="flow-card"><div class="flow-icon">04</div><h3>Producto</h3><p>Generamos índices, estadísticas temporales, recortes y entregables para cada caso de uso.</p></article>
+        </div>
+        <div class="access-strip">
+          <div><strong>Conexión gradual</strong><br><span style="color:#9fb2b5">Empieza simple y escala con tu operación.</span></div>
+          <div class="status-pill"><i></i> Hoy: entregas piloto por lote</div>
+          <div class="status-pill"><i style="background:var(--aqua)"></i> Previsto: catálogo STAC y API</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="aplicaciones">
+      <div class="shell">
+        <span class="eyebrow">Productos posibles</span>
+        <h2>Datos que se convierten<br>en señales de negocio.</h2>
+        <p class="section-lead">El datacubo es la infraestructura. El valor aparece cuando se transforma en un producto que responde una decisión concreta.</p>
+        <div class="products-grid">
+          <article class="product-visual">
+            <img src="assets/ndvi-analysis.png" alt="Transformación conceptual de una imagen de terreno en un índice de vegetación NDVI">
+            <div class="product-copy"><span class="eyebrow">Ejemplo de producto</span><h3>NDVI y vigor de la vegetación</h3><p>Compara fechas, resume temporadas y localiza patrones de cambio con índices escalados y listos para SIG.</p></div>
+          </article>
+          <div class="product-stack">
+            <article class="mini-card"><span class="tag">Series temporales</span><h3>Percentiles y tendencias</h3><p>Resume muchos días de observación en métricas estables para comparación territorial.</p></article>
+            <article class="mini-card"><span class="tag">Calidad</span><h3>Máscara de nubes y sombras</h3><p>Conserva únicamente las observaciones adecuadas para el análisis definido.</p></article>
+            <article class="mini-card"><span class="tag">A medida</span><h3>Variables derivadas</h3><p>Índices espectrales, composiciones, estadísticas y recortes adaptados a tu flujo.</p></article>
+          </div>
+        </div>
+
+        <div class="use-cases">
+          <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><path d="M6 27c3-9 8-16 20-21-1 12-7 18-20 21Z" stroke="currentColor" stroke-width="2"/><path d="M7 26c5-5 9-8 15-12" stroke="currentColor" stroke-width="2"/></svg><h3>Agro y cultivos</h3><p>Seguimiento de vigor, comparación de lotes y análisis de ciclos productivos.</p></article>
+          <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><path d="M16 4 5 10v12l11 6 11-6V10L16 4Z" stroke="currentColor" stroke-width="2"/><path d="m5 10 11 6 11-6M16 16v12" stroke="currentColor" stroke-width="2"/></svg><h3>Ambiente</h3><p>Observación de coberturas, restauración y cambios persistentes en el paisaje.</p></article>
+          <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><path d="M4 25 11 7l6 14 5-10 6 14H4Z" stroke="currentColor" stroke-width="2"/><path d="M5 27h23" stroke="currentColor" stroke-width="2"/></svg><h3>Infraestructura</h3><p>Contexto territorial para corredores, obras y áreas de influencia.</p></article>
+          <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="2"/><path d="M16 9v8l5 3" stroke="currentColor" stroke-width="2"/></svg><h3>Investigación</h3><p>Datos repetibles para modelos, estudios históricos y validación de hipótesis.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="planner" id="conexion">
+      <div class="shell planner-grid">
+        <div>
+          <span class="eyebrow">Encuentra tu punto de entrada</span>
+          <h2>No todos necesitan una API desde el primer día.</h2>
+          <p class="section-lead">Elige el nivel de integración según tu equipo, frecuencia y área. Esta recomendación es orientativa para diseñar un piloto.</p>
+        </div>
+        <form class="planner-panel" id="planFinder">
+          <div class="field"><label>¿Cómo quieres usar los datos?</label><div class="options">
+            <label class="option"><input type="radio" name="access" value="descarga" checked><span>Descarga SIG</span></label>
+            <label class="option"><input type="radio" name="access" value="notebook"><span>Python / notebook</span></label>
+            <label class="option"><input type="radio" name="access" value="api"><span>Integración API</span></label>
+          </div></div>
+          <div class="field"><label>¿Con qué frecuencia?</label><div class="options">
+            <label class="option"><input type="radio" name="frequency" value="puntual" checked><span>Una vez</span></label>
+            <label class="option"><input type="radio" name="frequency" value="mensual"><span>Mensual</span></label>
+            <label class="option"><input type="radio" name="frequency" value="continua"><span>Continua</span></label>
+          </div></div>
+          <div class="recommendation" aria-live="polite"><small>Recomendación</small><h3 id="resultPlan">Plan Explora</h3><p id="resultText">Un recorte piloto con producto derivado y documentación es la forma más rápida de validar valor.</p></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="planes">
+      <div class="shell">
+        <span class="eyebrow">Modelos de acceso</span>
+        <h2>Tres formas de empezar.</h2>
+        <p class="section-lead">Los precios se definen después de medir área, histórico, frecuencia y nivel de servicio. Así evitas pagar por capacidad que todavía no necesitas.</p>
+        <div class="plans">
+          <article class="plan"><span class="plan-kicker">Validar</span><h3>Explora</h3><p class="plan-price">Piloto de alcance cerrado</p><ul><li>Una zona y periodo definidos</li><li>Un producto derivado</li><li>Entrega GeoTIFF lista para SIG</li><li>Ficha técnica y sesión de lectura</li></ul><a class="btn btn--dark" href="#contacto">Proponer un piloto</a></article>
+          <article class="plan featured"><span class="plan-kicker">Operar</span><h3>Profesional</h3><p class="plan-price">Suscripción periódica</p><ul><li>Actualizaciones programadas</li><li>Varios productos e índices</li><li>Histórico y comparaciones</li><li>Soporte técnico prioritario</li><li>Acceso para un equipo</li></ul><a class="btn" href="#contacto">Diseñar suscripción</a></article>
+          <article class="plan"><span class="plan-kicker">Integrar</span><h3>Empresa</h3><p class="plan-price">Contrato a medida</p><ul><li>Áreas y reglas personalizadas</li><li>Integración con sistemas internos</li><li>Catálogo o API cuando aplique</li><li>Indicadores exclusivos</li><li>Acuerdos de servicio</li></ul><a class="btn btn--dark" href="#contacto">Hablar de integración</a></article>
+        </div>
+      </div>
+    </section>
+
+    <div class="proof-band">
+      <div class="shell">
+        <div class="proof-item"><strong>Menos fricción</strong><span>Datos preparados antes de que empiece el análisis.</span></div>
+        <div class="proof-item"><strong>Más contexto</strong><span>Fechas comparables, no imágenes aisladas.</span></div>
+        <div class="proof-item"><strong>Más control</strong><span>Procesos versionados y parámetros trazables.</span></div>
+      </div>
+    </div>
+
+    <section id="preguntas">
+      <div class="shell faq-wrap">
+        <div><span class="eyebrow">Preguntas frecuentes</span><h2>Lo esencial, sin letra pequeña.</h2></div>
+        <div>
+          <details open><summary>¿El datacubo ya cubre toda Antioquia?</summary><p>La infraestructura está en fase piloto y la cobertura se amplía por escenas y fechas. Antes de contratar confirmamos la disponibilidad exacta para tu municipio, polígono y periodo.</p></details>
+          <details><summary>¿Necesito ser especialista en teledetección?</summary><p>No. Puedes recibir un raster listo para QGIS o ArcGIS, una tabla de resultados o un flujo para Python. La complejidad depende del nivel de integración que elijas.</p></details>
+          <details><summary>¿Qué significa “listo para análisis”?</summary><p>Que las imágenes han sido corregidas, alineadas en una cuadrícula estable y acompañadas de información de calidad. Aun así, cada producto requiere una definición clara y validación para su uso previsto.</p></details>
+          <details><summary>¿Puedo pedir un índice diferente de NDVI?</summary><p>Sí. NDVI es un ejemplo. El catálogo puede crecer con otros índices espectrales, composiciones temporales y estadísticas, siempre que las bandas y observaciones disponibles soporten el cálculo.</p></details>
+          <details><summary>¿Cómo se conectaría mi empresa?</summary><p>El piloto comienza con entregas por lote. Para operaciones recurrentes se puede evolucionar hacia almacenamiento compartido, catálogo STAC o API, según volumen, seguridad y frecuencia.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="contacto">
+      <div class="shell cta-box">
+        <div><span class="eyebrow">Siguiente paso</span><h2>Empieza con una pregunta concreta.</h2><p>Define una zona, una decisión y un periodo. Con eso se puede diseñar un piloto pequeño, medible y útil antes de escalar.</p></div>
+        <form class="inquiry" id="inquiryForm">
+          <h3>Prepara tu solicitud de piloto</h3>
+          <label for="org">Organización</label><input id="org" name="org" required placeholder="Nombre de tu organización">
+          <label for="sector">Sector</label><select id="sector" name="sector"><option>Agricultura</option><option>Ambiente</option><option>Infraestructura</option><option>Investigación</option><option>Otro</option></select>
+          <label for="challenge">Pregunta que quieres responder</label><input id="challenge" name="challenge" required placeholder="Ej. comparar vigor por lote">
+          <button class="btn" type="submit">Preparar solicitud</button>
+          <p class="form-note">Este prototipo no envía ni almacena información. Genera un resumen para copiar.</p>
+          <div class="prepared" id="prepared" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell footer-row"><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 9 11-5 11 5-11 5L5 9Zm0 6 11 5 11-5M5 21l11 5 11-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span>Datacubo Antioquia</span></a><span>Infraestructura geoespacial en desarrollo · 2026</span><a href="#preguntas">Preguntas frecuentes</a></div></footer>
+
+  <script>
+    const header = document.getElementById('header');
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+    menuToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(open));
+    });
+    navLinks.addEventListener('click', event => { if (event.target.matches('a')) { navLinks.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); } });
+
+    const recommendations = {
+      'descarga-puntual': ['Plan Explora', 'Un recorte piloto con producto derivado y documentación es la forma más rápida de validar valor.'],
+      'descarga-mensual': ['Plan Profesional', 'Entregas periódicas listas para SIG permiten incorporar el producto sin desarrollar una integración.'],
+      'descarga-continua': ['Plan Profesional', 'Una suscripción recurrente organiza entregas, histórico y soporte bajo un calendario acordado.'],
+      'notebook-puntual': ['Plan Explora', 'Un piloto con muestra, metadatos y notebook de lectura permite validar el método.'],
+      'notebook-mensual': ['Plan Profesional', 'Datos periódicos y ejemplos reproducibles sirven a un equipo analítico que trabaja en Python.'],
+      'notebook-continua': ['Plan Empresa', 'Una conexión estable y un catálogo versionado facilitan automatizar modelos internos.'],
+      'api-puntual': ['Plan Explora', 'Primero valida el producto con una entrega por lote antes de invertir en integración.'],
+      'api-mensual': ['Plan Empresa', 'Una integración acordada por volumen y frecuencia evita procesos manuales repetitivos.'],
+      'api-continua': ['Plan Empresa', 'Catálogo, API y acuerdos de servicio son adecuados para una operación conectada.']
+    };
+    document.getElementById('planFinder').addEventListener('change', event => {
+      const form = event.currentTarget;
+      const access = new FormData(form).get('access');
+      const frequency = new FormData(form).get('frequency');
+      const [title, text] = recommendations[`${access}-${frequency}`];
+      document.getElementById('resultPlan').textContent = title;
+      document.getElementById('resultText').textContent = text;
+    });
+
+    document.getElementById('inquiryForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const message = `Solicitud de piloto — Datacubo Antioquia\nOrganización: ${data.get('org')}\nSector: ${data.get('sector')}\nPregunta: ${data.get('challenge')}`;
+      const output = document.getElementById('prepared');
+      output.textContent = message;
+      output.classList.add('visible');
+      try {
+        await navigator.clipboard.writeText(message);
+        output.textContent += '\n\nResumen copiado al portapapeles.';
+      } catch (_) {
+        output.textContent += '\n\nSelecciona y copia este resumen.';
+      }
+    });
+  </script>
+</body>
+</html>
