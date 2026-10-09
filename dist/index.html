@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Datacubo Antioquia — Inteligencia territorial lista para usar</title>
-  <meta name="description" content="Convierte observaciones satelitales de Antioquia en datos consistentes para agricultura, ambiente, infraestructura y análisis territorial.">
+  <title>datacube-colombia — Inteligencia territorial lista para usar</title>
+  <meta name="description" content="Convierte observaciones satelitales de Colombia en datos consistentes para agricultura, ambiente, infraestructura y análisis territorial con FORCE.">
   <meta name="theme-color" content="#07151d">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -229,6 +229,47 @@
     .footer-row a { text-decoration: none; }
     .footer-row a:hover { color: var(--ink); }
     .pilot-note { padding: 15px 0; background: #122c36; color: #c5d2d4; font-size: .84rem; text-align: center; }
+    .force-explainer { background: #edf1ea; }
+    .force-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: start; }
+    .force-intro { position: sticky; top: 110px; }
+    .force-name { display: inline-block; margin: 18px 0 22px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px; font: 700 .78rem/1.3 "Manrope"; letter-spacing: .04em; color: #31565d; background: rgba(255,255,255,.55); }
+    .force-steps { display: grid; gap: 10px; }
+    .force-step { width: 100%; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.66); color: var(--ink); padding: 22px 24px; text-align: left; cursor: pointer; display: grid; grid-template-columns: 54px 1fr auto; gap: 16px; align-items: center; }
+    .force-step:hover, .force-step.active { background: var(--ink); color: white; border-color: var(--ink); }
+    .force-step-index { font: 700 .8rem/1 "Manrope"; color: #4b7773; }
+    .force-step.active .force-step-index { color: var(--lime); }
+    .force-step strong { font: 700 1.05rem/1.3 "Manrope"; }
+    .force-step span:last-child { font-size: 1.25rem; color: #6d8589; }
+    .force-detail { margin-top: 14px; padding: 30px; min-height: 220px; border-radius: 20px; background: var(--ink); color: white; }
+    .force-detail .force-label { color: var(--aqua); font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .force-detail h3 { font-size: 1.8rem; margin: 12px 0 10px; }
+    .force-detail p { color: #b9cacc; margin-bottom: 0; }
+    .example-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 46px; }
+    .example-card { border: 1px solid var(--line); border-radius: 20px; padding: 28px; background: rgba(255,255,255,.7); }
+    .example-card code { display: inline-block; margin: 12px 0 18px; padding: 7px 10px; border-radius: 7px; background: #dfe7de; color: #285c54; font: 600 .82rem/1.4 monospace; }
+    .example-card p { color: var(--muted); margin: 0; }
+    .delivery { background: #07151d; color: white; }
+    .delivery .section-lead { color: #a9babd; }
+    .delivery-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 76px; align-items: start; }
+    .delivery-options { display: grid; gap: 12px; margin-top: 36px; }
+    .delivery-option { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 20px; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; }
+    .delivery-option strong { display: block; margin-bottom: 4px; }
+    .delivery-option p { margin: 0; color: #9fb1b4; font-size: .9rem; }
+    .delivery-option .badge { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; background: rgba(89,223,204,.1); color: var(--aqua); font: 700 .75rem "Manrope"; }
+    .nfs-card { padding: 34px; border-radius: 24px; color: var(--ink); background: #f7faf5; box-shadow: var(--shadow); }
+    .nfs-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+    .architecture-label { flex: none; padding: 6px 9px; border-radius: 999px; color: #285f57; background: #daf4e9; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .nfs-flow { display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr; gap: 8px; align-items: center; margin: 30px 0; }
+    .nfs-node { min-height: 106px; display: grid; align-content: center; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .nfs-node small { color: #598078; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .nfs-node strong { margin-top: 5px; line-height: 1.25; }
+    .nfs-link { height: 2px; background: var(--lime); position: relative; }
+    .nfs-link::after { content: ""; position: absolute; right: 0; top: -4px; border-left: 7px solid var(--lime); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+    .security-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0; margin: 0; list-style: none; }
+    .security-list li { position: relative; padding: 12px 12px 12px 36px; border-radius: 12px; background: #eaf0e8; font-size: .88rem; }
+    .security-list li::before { content: "✓"; position: absolute; left: 14px; color: #27786d; font-weight: 700; }
+    .mount-example { margin: 24px 0 0; padding: 14px 16px; overflow-x: auto; border-radius: 12px; background: #10242d; color: #d7ef84; font: 500 .79rem/1.5 monospace; }
+    .nfs-warning { margin: 18px 0 0; color: #65777b; font-size: .84rem; }
     @media (max-width: 900px) {
       .nav-links { position: fixed; inset: 68px 20px auto; display: none; flex-direction: column; align-items: stretch; padding: 22px; border-radius: 18px; background: #0c242e; box-shadow: var(--shadow); }
       .nav-links.open { display: flex; }
@@ -237,13 +278,15 @@
       .hero-image { inset-left: 0; width: 100%; opacity: .55; }
       .hero-shade { background: linear-gradient(90deg, rgba(7,21,29,.96), rgba(7,21,29,.35)), linear-gradient(0deg, var(--ink), transparent 50%); }
       .hero-content { width: 100%; }
-      .intro-grid, .planner-grid, .faq-wrap, .cta-box { grid-template-columns: 1fr; gap: 42px; }
+      .intro-grid, .planner-grid, .faq-wrap, .cta-box, .force-grid, .delivery-layout { grid-template-columns: 1fr; gap: 42px; }
       .intro-sticky { position: static; }
+      .force-intro { position: static; }
       .flow { grid-template-columns: repeat(2, 1fr); }
       .products-grid { grid-template-columns: 1fr; }
       .use-cases { grid-template-columns: repeat(2, 1fr); }
       .use-case:nth-child(3) { border-left: 0; padding-left: 0; }
       .plans { grid-template-columns: 1fr; }
+      .example-row { grid-template-columns: 1fr; }
       .plan.featured { transform: none; }
     }
     @media (max-width: 600px) {
@@ -257,6 +300,10 @@
       .flow, .use-cases, .proof-band .shell { grid-template-columns: 1fr; }
       .use-case, .use-case + .use-case { border-left: 0; padding-left: 0; }
       .options { grid-template-columns: 1fr; }
+      .nfs-flow { grid-template-columns: 1fr; }
+      .nfs-link { width: 2px; height: 28px; margin: 0 auto; }
+      .nfs-link::after { right: -4px; top: auto; bottom: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid var(--lime); border-bottom: 0; }
+      .security-list { grid-template-columns: 1fr; }
       .access-strip, .footer-row { align-items: flex-start; flex-direction: column; }
       .product-visual { min-height: 510px; }
       .cta-box { padding: 32px 22px; }
@@ -270,14 +317,15 @@
 <body>
   <header class="site-header" id="header">
     <div class="shell nav">
-      <a class="brand" href="#inicio" aria-label="Datacubo Antioquia, inicio">
+      <a class="brand" href="#inicio" aria-label="datacube-colombia, inicio">
         <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 9 11-5 11 5-11 5L5 9Zm0 6 11 5 11-5M5 21l11 5 11-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
-        <span>Datacubo Antioquia</span>
+        <span>datacube-colombia</span>
       </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
-        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#force">FORCE en español</a>
         <a href="#aplicaciones">Aplicaciones</a>
+        <a href="#entrega">Conexión</a>
         <a href="#planes">Planes</a>
         <a class="btn" href="#contacto">Solicitar piloto</a>
       </nav>
@@ -286,16 +334,16 @@
 
   <main>
     <section class="hero" id="inicio">
-      <img class="hero-image" src="assets/hero-antioquia.png" alt="Visualización conceptual de montañas de Antioquia con capas de datos satelitales">
+      <img class="hero-image" src="assets/hero-antioquia.png" alt="Visualización conceptual de montañas colombianas con capas de datos satelitales">
       <div class="hero-shade"></div>
       <div class="shell">
         <div class="hero-content">
-          <span class="eyebrow">Observación territorial como servicio</span>
+          <span class="eyebrow">Datos satelitales para Colombia</span>
           <h1>El territorio,<br>listo para decidir.</h1>
-          <p class="lead">Transformamos imágenes satelitales en un datacubo consistente de Antioquia: menos tiempo preparando datos, más tiempo encontrando respuestas.</p>
+          <p class="lead">Transformamos imágenes satelitales en un datacubo consistente para Colombia: menos tiempo preparando datos, más tiempo encontrando respuestas.</p>
           <div class="hero-actions">
             <a class="btn" href="#contacto">Diseñar un piloto</a>
-            <a class="btn btn--ghost" href="#como-funciona">Entender el datacubo</a>
+            <a class="btn btn--ghost" href="#force">Entender FORCE</a>
           </div>
           <div class="hero-proof" aria-label="Características principales">
             <div><strong>10 m</strong><span>detalle espacial Sentinel-2</span></div>
@@ -307,7 +355,7 @@
       <span class="hero-note">Visual conceptual · no representa una escena o fecha específica</span>
     </section>
 
-    <div class="pilot-note">Producto en fase piloto: la cobertura, frecuencia y disponibilidad se confirman para cada zona antes de contratar.</div>
+    <div class="pilot-note">Piloto operativo en Antioquia, diseñado para escalar a Colombia. La cobertura, frecuencia y disponibilidad se confirman por zona.</div>
 
     <section id="que-es">
       <div class="shell intro-grid">
@@ -330,19 +378,52 @@
 
     <section class="dark-section" id="como-funciona">
       <div class="shell">
-        <span class="eyebrow">Cómo funciona</span>
-        <h2>Del satélite a una respuesta utilizable.</h2>
+        <span class="eyebrow">La cadena de valor</span>
+        <h2>Del satélite a una decisión.</h2>
         <p class="section-lead">La complejidad técnica queda detrás de una cadena clara de ingestión, corrección, organización y entrega.</p>
         <div class="flow">
           <article class="flow-card"><div class="flow-icon">01</div><h3>Ingesta</h3><p>Seleccionamos observaciones Sentinel-2 para la zona y el periodo de interés.</p></article>
-          <article class="flow-card"><div class="flow-icon">02</div><h3>Preparación</h3><p>FORCE convierte las escenas en reflectancia de superficie y capas de calidad comparables.</p></article>
+          <article class="flow-card"><div class="flow-icon">02</div><h3>Nivel 2 ARD</h3><p>FORCE corrige las escenas, detecta nubes y sombras y crea reflectancia y calidad comparables.</p></article>
           <article class="flow-card"><div class="flow-icon">03</div><h3>Datacubo</h3><p>Las observaciones se ordenan en teselas de 30 km, a 10 m, sobre una cuadrícula estable.</p></article>
           <article class="flow-card"><div class="flow-icon">04</div><h3>Producto</h3><p>Generamos índices, estadísticas temporales, recortes y entregables para cada caso de uso.</p></article>
         </div>
         <div class="access-strip">
           <div><strong>Conexión gradual</strong><br><span style="color:#9fb2b5">Empieza simple y escala con tu operación.</span></div>
           <div class="status-pill"><i></i> Hoy: entregas piloto por lote</div>
-          <div class="status-pill"><i style="background:var(--aqua)"></i> Previsto: catálogo STAC y API</div>
+          <div class="status-pill"><i style="background:var(--aqua)"></i> Propuesto: NFS privado, catálogo STAC y API</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="force-explainer" id="force">
+      <div class="shell">
+        <div class="force-grid">
+          <div class="force-intro">
+            <span class="eyebrow">FORCE en español</span>
+            <span class="force-name">Framework for Operational Radiometric Correction for Environmental monitoring</span>
+            <h2>El motor que convierte imágenes en información.</h2>
+            <p class="section-lead">FORCE es software libre para procesar archivos de observación de la Tierra. Automatiza la preparación de grandes volúmenes de imágenes y su análisis como series de tiempo.</p>
+            <p class="section-lead">Nuestro servicio traduce esa potencia técnica a productos documentados, soporte en español y formas de entrega que el equipo del cliente pueda usar.</p>
+            <a href="https://force-eo.readthedocs.io/en/latest/" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;color:#286f66;font-weight:700">Documentación técnica original de FORCE</a>
+          </div>
+          <div>
+            <div class="force-steps" id="forceSteps">
+              <button class="force-step active" type="button" data-step="level1"><span class="force-step-index">01</span><strong>Imágenes de origen</strong><span>+</span></button>
+              <button class="force-step" type="button" data-step="ard"><span class="force-step-index">02</span><strong>Datos listos para análisis — ARD</strong><span>+</span></button>
+              <button class="force-step" type="button" data-step="cube"><span class="force-step-index">03</span><strong>Organización en datacubo</strong><span>+</span></button>
+              <button class="force-step" type="button" data-step="higher"><span class="force-step-index">04</span><strong>Análisis de nivel superior</strong><span>+</span></button>
+            </div>
+            <div class="force-detail" aria-live="polite">
+              <span class="force-label" id="forceLabel">Entrada</span>
+              <h3 id="forceTitle">Sentinel-2 observa el territorio</h3>
+              <p id="forceText">Partimos de imágenes Nivel 1C adquiridas para una zona y periodo. Una escena todavía necesita correcciones y control de calidad antes de comparar fechas o calcular indicadores.</p>
+            </div>
+          </div>
+        </div>
+        <div class="example-row">
+          <article class="example-card"><span class="eyebrow">Ejemplo 01</span><h3>NDVI por fecha</h3><code>(NIR − rojo) / (NIR + rojo)</code><p>Mide la respuesta relativa de la vegetación. Se entrega con máscara de calidad y valores listos para SIG.</p></article>
+          <article class="example-card"><span class="eyebrow">Ejemplo 02</span><h3>NDVI percentil 90</h3><code>P90 de observaciones válidas</code><p>Resume el vigor alto típico de un periodo sin depender de una sola fecha. Requiere suficientes observaciones despejadas.</p></article>
+          <article class="example-card"><span class="eyebrow">Ejemplo 03</span><h3>Cambio y tendencia</h3><code>serie temporal + calidad</code><p>Compara periodos y localiza señales persistentes. El resultado indica dónde investigar; no reemplaza validación de campo.</p></article>
         </div>
       </div>
     </section>
@@ -370,6 +451,32 @@
           <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><path d="M4 25 11 7l6 14 5-10 6 14H4Z" stroke="currentColor" stroke-width="2"/><path d="M5 27h23" stroke="currentColor" stroke-width="2"/></svg><h3>Infraestructura</h3><p>Contexto territorial para corredores, obras y áreas de influencia.</p></article>
           <article class="use-case"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="2"/><path d="M16 9v8l5 3" stroke="currentColor" stroke-width="2"/></svg><h3>Investigación</h3><p>Datos repetibles para modelos, estudios históricos y validación de hipótesis.</p></article>
         </div>
+      </div>
+    </section>
+
+    <section class="delivery" id="entrega">
+      <div class="shell delivery-layout">
+        <div>
+          <span class="eyebrow">Conexión con el cliente</span>
+          <h2>Los datos llegan por el canal adecuado.</h2>
+          <p class="section-lead">La web explica y gestiona el servicio. Los rásteres no viajan a través de esta página: se entregan desde nuestra infraestructura mediante un canal separado y controlado.</p>
+          <div class="delivery-options">
+            <article class="delivery-option"><span class="badge">01</span><div><strong>Descarga HTTPS</strong><p>La opción simple para pilotos, entregas puntuales y equipos SIG.</p></div></article>
+            <article class="delivery-option"><span class="badge">02</span><div><strong>NFS privado</strong><p>Montaje directo para cargas Linux, volúmenes grandes y procesos recurrentes.</p></div></article>
+            <article class="delivery-option"><span class="badge">03</span><div><strong>STAC / API</strong><p>Evolución prevista para descubrir activos e integrar aplicaciones.</p></div></article>
+          </div>
+        </div>
+        <article class="nfs-card">
+          <div class="nfs-head"><div><span class="eyebrow">Arquitectura NFS propuesta</span><h3 style="font-size:1.7rem;margin:14px 0 0">NFSv4 dentro de una red privada</h3></div><span class="architecture-label">Por validar</span></div>
+          <div class="nfs-flow" aria-label="Flujo de conexión NFS">
+            <div class="nfs-node"><small>Nuestro servidor</small><strong>Exportación aislada por cliente</strong></div><span class="nfs-link" aria-hidden="true"></span>
+            <div class="nfs-node"><small>Canal seguro</small><strong>VPN sitio a sitio o túnel privado</strong></div><span class="nfs-link" aria-hidden="true"></span>
+            <div class="nfs-node"><small>Red del cliente</small><strong>Punto de montaje autorizado</strong></div>
+          </div>
+          <ul class="security-list"><li>NFSv4; puerto no expuesto a internet</li><li>Kerberos con cifrado <code>sec=krb5p</code></li><li>Acceso de solo lectura por defecto</li><li><code>root_squash</code> y mínimos privilegios</li><li>Ruta y credenciales por cliente</li><li>Registro, alertas y revocación</li></ul>
+          <pre class="mount-example">mount -t nfs4 -o ro,sec=krb5p nfs.privado:/productos /datos/datacube-colombia</pre>
+          <p class="nfs-warning">Nunca publicaríamos NFS directamente en internet. Antes de activar un cliente se validan red, DNS, identidad, rendimiento, permisos y soporte operativo.</p>
+        </article>
       </div>
     </section>
 
@@ -421,11 +528,13 @@
       <div class="shell faq-wrap">
         <div><span class="eyebrow">Preguntas frecuentes</span><h2>Lo esencial, sin letra pequeña.</h2></div>
         <div>
-          <details open><summary>¿El datacubo ya cubre toda Antioquia?</summary><p>La infraestructura está en fase piloto y la cobertura se amplía por escenas y fechas. Antes de contratar confirmamos la disponibilidad exacta para tu municipio, polígono y periodo.</p></details>
+          <details open><summary>¿El datacubo ya cubre toda Colombia?</summary><p>El piloto operativo comienza en Antioquia y la arquitectura está diseñada para crecer. Antes de contratar confirmamos disponibilidad, fechas y tiempos de preparación para el municipio, polígono o corredor solicitado.</p></details>
+          <details><summary>¿Qué hace FORCE exactamente?</summary><p>Convierte imágenes satelitales en datos corregidos y organizados, filtra observaciones mediante información de calidad y ejecuta análisis temporales. En esta página explicamos en español los conceptos necesarios para usar el servicio sin depender de documentación en inglés.</p></details>
           <details><summary>¿Necesito ser especialista en teledetección?</summary><p>No. Puedes recibir un raster listo para QGIS o ArcGIS, una tabla de resultados o un flujo para Python. La complejidad depende del nivel de integración que elijas.</p></details>
           <details><summary>¿Qué significa “listo para análisis”?</summary><p>Que las imágenes han sido corregidas, alineadas en una cuadrícula estable y acompañadas de información de calidad. Aun así, cada producto requiere una definición clara y validación para su uso previsto.</p></details>
           <details><summary>¿Puedo pedir un índice diferente de NDVI?</summary><p>Sí. NDVI es un ejemplo. El catálogo puede crecer con otros índices espectrales, composiciones temporales y estadísticas, siempre que las bandas y observaciones disponibles soporten el cálculo.</p></details>
           <details><summary>¿Cómo se conectaría mi empresa?</summary><p>El piloto comienza con entregas por lote. Para operaciones recurrentes se puede evolucionar hacia almacenamiento compartido, catálogo STAC o API, según volumen, seguridad y frecuencia.</p></details>
+          <details><summary>¿NFS funciona desde esta página web?</summary><p>No. La web es el punto comercial y documental. NFS se configura entre servidores a través de una red privada; el cliente monta únicamente la ruta autorizada. Para usuarios sin infraestructura Linux ofrecemos descargas HTTPS u otras modalidades.</p></details>
         </div>
       </div>
     </section>
@@ -446,7 +555,7 @@
     </section>
   </main>
 
-  <footer><div class="shell footer-row"><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 9 11-5 11 5-11 5L5 9Zm0 6 11 5 11-5M5 21l11 5 11-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span>Datacubo Antioquia</span></a><span>Infraestructura geoespacial en desarrollo · 2026</span><a href="#preguntas">Preguntas frecuentes</a></div></footer>
+  <footer><div class="shell footer-row"><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 9 11-5 11 5-11 5L5 9Zm0 6 11 5 11-5M5 21l11 5 11-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span><span>datacube-colombia</span></a><span>Piloto operativo en Antioquia · Escalable a Colombia · 2026</span><a href="#preguntas">Preguntas frecuentes</a></div></footer>
 
   <script>
     const header = document.getElementById('header');
@@ -458,6 +567,22 @@
       menuToggle.setAttribute('aria-expanded', String(open));
     });
     navLinks.addEventListener('click', event => { if (event.target.matches('a')) { navLinks.classList.remove('open'); menuToggle.setAttribute('aria-expanded', 'false'); } });
+
+    const forceContent = {
+      level1: ['Entrada', 'Sentinel-2 observa el territorio', 'Partimos de imágenes Nivel 1C adquiridas para una zona y periodo. Una escena todavía necesita correcciones y control de calidad antes de comparar fechas o calcular indicadores.'],
+      ard: ['Nivel 2', 'FORCE genera datos ARD', 'El procesamiento atmosférico y radiométrico, el uso del relieve y la detección de nubes y sombras producen reflectancia de superficie (BOA) e información de calidad (QAI).'],
+      cube: ['Estructura', 'Cada píxel ocupa un lugar estable', 'Las fechas se organizan en una cuadrícula común de teselas sin solapamiento. Esto permite leer el mismo lugar a través del tiempo sin realinear cada escena.'],
+      higher: ['Nivel 3–4', 'La serie temporal se convierte en producto', 'FORCE calcula índices, estadísticas, interpolaciones y tendencias, o ejecuta funciones personalizadas en Python. De aquí salen productos como NDVI P90, métricas temporales y capas para modelos.']
+    };
+    document.getElementById('forceSteps').addEventListener('click', event => {
+      const button = event.target.closest('.force-step');
+      if (!button) return;
+      document.querySelectorAll('.force-step').forEach(item => item.classList.toggle('active', item === button));
+      const [label, title, text] = forceContent[button.dataset.step];
+      document.getElementById('forceLabel').textContent = label;
+      document.getElementById('forceTitle').textContent = title;
+      document.getElementById('forceText').textContent = text;
+    });
 
     const recommendations = {
       'descarga-puntual': ['Plan Explora', 'Un recorte piloto con producto derivado y documentación es la forma más rápida de validar valor.'],
@@ -482,7 +607,7 @@
     document.getElementById('inquiryForm').addEventListener('submit', async event => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
-      const message = `Solicitud de piloto — Datacubo Antioquia\nOrganización: ${data.get('org')}\nSector: ${data.get('sector')}\nPregunta: ${data.get('challenge')}`;
+      const message = `Solicitud de piloto — datacube-colombia\nOrganización: ${data.get('org')}\nSector: ${data.get('sector')}\nPregunta: ${data.get('challenge')}`;
       const output = document.getElementById('prepared');
       output.textContent = message;
       output.classList.add('visible');
