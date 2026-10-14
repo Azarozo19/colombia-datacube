@@ -217,9 +217,11 @@
     .inquiry textarea { min-height: 104px; padding-top: 12px; resize: vertical; }
     .inquiry input::placeholder, .inquiry textarea::placeholder { color: #7f9498; }
     .inquiry .btn { width: 100%; margin-top: 19px; }
+    .inquiry .btn:disabled { cursor: wait; opacity: .68; }
     .form-note { margin: 12px 0 0; font-size: .77rem; color: #8da1a5; }
     .prepared { display: none; margin-top: 16px; border-left: 2px solid var(--lime); padding-left: 14px; color: #d6e0e1; font-size: .88rem; }
     .prepared.visible { display: block; }
+    .prepared.error { border-color: #ff8f7a; color: #ffd2ca; }
     footer { padding: 34px 0 46px; }
     .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #60737a; font-size: .88rem; }
     .footer-row a { text-decoration: none; }
@@ -618,8 +620,10 @@
     <section class="cta-section" id="contacto">
       <div class="shell cta-box">
         <div><span class="eyebrow">Siguiente paso</span><h2>Cuéntanos qué quieres descubrir.</h2><p>Define una zona, una decisión y un periodo. Revisaremos si los datos disponibles permiten diseñar un piloto pequeño, medible y útil.</p></div>
-        <form class="inquiry" id="inquiryForm">
+        <form class="inquiry" id="inquiryForm" action="https://formspree.io/f/meaeryqw" method="post">
           <h3>Registra tu interés</h3>
+          <input type="hidden" name="source" value="Sitio web datacube-colombia">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
           <div class="form-row">
             <div><label for="name">Nombre</label><input id="name" name="name" autocomplete="name" required placeholder="Tu nombre"></div>
             <div><label for="email">Correo</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="tu@correo.com"></div>
@@ -628,9 +632,9 @@
           <label for="sector">Sector</label><select id="sector" name="sector"><option>Agricultura</option><option>Ambiente</option><option>Infraestructura</option><option>Investigación</option><option>Otro</option></select>
           <label for="interest">Área o lugar de interés</label><input id="interest" name="interest" required placeholder="Ej. cultivos en el Oriente antioqueño">
           <label for="challenge">Pregunta que quieres responder</label><textarea id="challenge" name="challenge" required placeholder="Ej. ¿Cómo cambió el vigor de los cultivos durante la última temporada?"></textarea>
-          <button class="btn" type="submit">Enviar interés por correo</button>
-          <p class="form-note">Al continuar se abrirá tu aplicación de correo. Tu interés se registra únicamente cuando envías el mensaje.</p>
-          <div class="prepared" id="prepared" aria-live="polite"></div>
+          <button class="btn" type="submit">Registrar mi interés</button>
+          <p class="form-note">Al enviar, tus datos se guardarán de forma segura en Formspree para poder responder a tu solicitud.</p>
+          <div class="prepared" id="prepared" role="status" aria-live="polite"></div>
         </form>
       </div>
     </section>
@@ -685,15 +689,38 @@
       document.getElementById('resultText').textContent = text;
     });
 
-    document.getElementById('inquiryForm').addEventListener('submit', event => {
+    document.getElementById('inquiryForm').addEventListener('submit', async event => {
       event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const subject = `Interés en piloto — ${data.get('org')}`;
-      const message = `Hola, quiero explorar un piloto de datacube-colombia.\n\nNombre: ${data.get('name')}\nCorreo de contacto: ${data.get('email')}\nOrganización: ${data.get('org')}\nSector: ${data.get('sector')}\nÁrea o lugar de interés: ${data.get('interest')}\nPregunta: ${data.get('challenge')}\n\nOrigen: sitio web de datacube-colombia`;
+      const form = event.currentTarget;
+      const button = form.querySelector('button[type="submit"]');
       const output = document.getElementById('prepared');
-      output.textContent = 'Abrimos un correo dirigido a jsvalenciav1@gmail.com. Envíalo para registrar tu interés.';
+      const originalLabel = button.textContent;
+
+      button.disabled = true;
+      button.textContent = 'Registrando…';
+      output.classList.remove('visible', 'error');
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const detail = result.errors?.map(error => error.message).join(' ');
+          throw new Error(detail || 'No pudimos registrar tu interés. Inténtalo nuevamente.');
+        }
+        form.reset();
+        output.textContent = '¡Gracias! Tu interés quedó registrado. Revisaremos tu solicitud y nos pondremos en contacto contigo.';
+      } catch (error) {
+        output.textContent = error.message || 'No pudimos registrar tu interés. Inténtalo nuevamente.';
+        output.classList.add('error');
+      } finally {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
       output.classList.add('visible');
-      window.location.href = `mailto:jsvalenciav1@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     });
   </script>
 </body>
