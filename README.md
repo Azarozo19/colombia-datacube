@@ -36,5 +36,5 @@ Invite collaborators from **Settings → Collaborators** so each maintainer can
 edit through their own GitHub account. A purchased custom domain can be attached
 later without changing the website source.
 
-The existing `.openai/hosting.json` is intentionally retained so the current
-ChatGPT Site can remain available until the GitHub Pages deployment is verified.
+GitHub Pages is the sole hosting target for this repository. Pushes to `main`
+publish the contents of `dist/` through the Pages workflow.
